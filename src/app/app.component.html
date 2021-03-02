@@ -1,4 +1,19 @@
-<hello name="{{ name }}"></hello>
-<p>
-  Start editing to see some magic happen :)
-</p>
+<h2>Ngrx Effects</h2>
+<div [class.loading]="(loading$ | async)" id="shopping-list" *ngIf="!(error$ | async); else error">
+      <h2>Shopping List</h2>
+
+        <ul *ngIf="(shoppingItems$ | async)">
+          <li *ngFor="let shopping of shoppingItems$ | async">
+            <span>{{ shopping.name }}<button  (click)="deleteItem(shopping.id)"> X</button></span>
+          </li>
+        </ul>
+</div>
+
+    <form (ngSubmit)="addItem()">
+      <input type="text" [(ngModel)]="newShoppingItem.name" placeholder="Item" name="itemName"/>
+      <button type="submit" >+</button>
+    </form>
+
+<ng-template #error>
+  <h2>{{(error$ | async)?.message}}</h2>
+</ng-template>
